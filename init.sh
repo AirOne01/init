@@ -13,12 +13,10 @@ bin_dir="$work_dir/bin"
 
 if [ ! "$(command -v node)" ]; then
     echo -n "Node binary not found.\nDownloading (portable version)... " >&2
-    if [ "$(command -v curl)" ]; then
-        sh -c "$(curl -so $work_dir/node.tar.xz node_url)" -- b "$bin_dir"
-    elif [ "$(command -v wget)" ]; then
-        sh -c "$(wget -qO $work_dir/node.tar.xz node_url)" -- b "$bin_dir"
+    if [ "$(command -v wget)" ]; then
+        sh -c "$(wget -qO $work_dir/node.tar.xz $node_url)" -- b "$bin_dir"
     else
-        echo "\nTo run the script, you must have curl or wget installed." >&2
+        echo "fail.\n\nTo run the script, you must have wget installed." >&2
         exit 1
     fi
 
@@ -36,16 +34,14 @@ else
 fi
 
 echo -n "Getting script... " >&2
-if [ "$(command -v curl)" ]; then
-    sh -c "$(curl -so $work_dir/index.js $script_url)" -- b "$work_dir"
-elif [ "$(command -v wget)" ]; then
+if [ "$(command -v wget)" ]; then
     sh -c "$(wget -qO $work_dir/index.js $script_url)" -- b "$work_dir"
 else
-    echo "To run the script, you must have curl or wget installed." >&2
+    echo "To run the script, you must have wget installed." >&2
     exit 1
 fi
 
-echo "ok.\n\nLaunching script..." >&2
+echo "ok.\n\n" >&2
 $bin_dir/node $work_dir/index.js
 
-rm -rf "$work_dir"
+# rm -rf "$work_dir"
