@@ -41,7 +41,7 @@ else
     exit 1
 fi
 
-echo "ok.\n\n" >&2
+echo "ok.\n" >&2
 $bin_dir/node $work_dir/index.js
 
 # rm -rf "$work_dir"
